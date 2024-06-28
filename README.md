@@ -42,6 +42,10 @@ This web application displays lists of board games and their reviews. While anyo
 - Schema.sql file to customize the schema and input initial data
 - Thymeleaf Fragments to reduce redundancy of repeating HTML elements (head, footer, navigation)
 
+
+![Full stack pipeline project-1(1)](https://github.com/vishal343012/Boardgame/assets/119778329/8dda626c-cc3f-4408-9a0e-176601734eab)
+
+
 ## How to Run
 
 1. Clone the repository
