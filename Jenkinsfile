@@ -13,27 +13,92 @@
                 git branch: 'main', url: 'https://github.com/vishal343012/Boardgame.git'
             }
         }
+        stage('Clean') {
+            steps {
+                sh 'mvn clean'
+            }
+        }
         stage('Compile') {
             steps {
                 sh 'mvn compile'
             }
         }
-        stage('Package') {
+        stage('Trivy FS Scan') {
             steps {
-                sh 'mvn package'
+                sh 'trivy fs --format table -o trivy-report.txt --severity HIGH,CRITICAL .'
             }
         }
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonarqube-server') {
-                    sh '''$SONARQUBE_HOME/bin/sonar-scanner \
+                    sh """
+                        $SONARQUBE_HOME/bin/sonar-scanner \
                         -Dsonar.projectKey=Boardgame \
                         -Dsonar.sources=. \
-                        -Dsonar.java.binaries=target/classes'''
+                        -Dsonar.java.binaries=.
+                    """
+                }
+            }
+        }
+        // stage('QUALITY_GATE') {
+        //   steps {
+        //     waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-cred'
+        //   }
+        // }
+        stage('package') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+        stage('Deploy Artifacts To Nexus') {
+            steps {
+                withMaven(globalMavenSettingsConfig: 'global-setting', jdk: 'jdk17', maven: 'Maven3', mavenSettingsConfig: '', traceability: true) {
+                     sh 'mvn deploy' 
+                }
+            }
+        }
+        stage('Docker build and Tag Image') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'dockerhub', toolName: 'dockerhub')  {
+                        sh 'docker build -t vishal431/boardgame1:latest .'
+                    }
+                }
+            }
+        }
+        stage('Trivy scan Docker image') {
+            steps {
+                sh 'trivy image --format table -o trivy-fs-report.html vishal431/boardgame1:latest'
+            }
+        }
+        stage('Push Docker image') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'dockerhub', toolName: 'dockerhub')  {
+                        sh 'docker push vishal431/boardgame1:latest'
+                    }
+                }
+            }
+        }
+        stage('Deploy to kubernets') {
+            steps {
+                withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.10.245:6443') {
+                    sh 'kubectl apply -f deployment-service.yaml'
+                }
+            }
+        }
+        stage('Verify Deployment') {
+            steps {
+                withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.10.245:6443') {
+                    sh 'kubectl get pods -n webapps'
+                    sh 'kubectl get svc -n webapps'
                 }
             }
         }
     }
+}
+  
+      
     post {
         always {
             script {
