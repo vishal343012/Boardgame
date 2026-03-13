@@ -15,16 +15,22 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build Maven Project
-        run:  mvn.cmd clean package -DskipTests
+        shell: powershell
+        run: |
+          & "C:\Program Files\Apache\Maven\apache-maven-3.9.14\bin\mvn.cmd" clean package -DskipTests
 
       - name: Build Docker Image
+        shell: powershell
         run: docker build -t boardgame-app .
 
       - name: Stop Old Container
-        run: docker stop boardgame-app || true
+        shell: powershell
+        run: docker stop boardgame-app
 
       - name: Remove Old Container
-        run: docker rm boardgame-app || true
+        shell: powershell
+        run: docker rm boardgame-app
 
       - name: Run Docker Container
+        shell: powershell
         run: docker run -d -p 8080:8080 --name boardgame-app boardgame-app
