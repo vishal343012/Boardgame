@@ -1,21 +1,24 @@
 package com.javaproject.beans;
 
 public class ErrorMessage {
+
     private String message;
 
-    // No-argument constructor (already exists)
-    public ErrorMessage() {}
+    // No-argument constructor
+    public ErrorMessage() {
+    }
 
-    // New constructor to accept message
+    // Constructor with a message
     public ErrorMessage(String message) {
         this.message = message;
     }
 
-    // Getter and setter
+    // Getter for message
     public String getMessage() {
         return message;
     }
 
+    // Setter for message
     public void setMessage(String message) {
         this.message = message;
     }
