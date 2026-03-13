@@ -10,7 +10,6 @@ public class BoardGame {
     private int minPlayers;
     private int maxPlayers;
     private String gameType;
-
     private List<Review> reviews;
 
     public BoardGame() {
