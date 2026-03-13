@@ -1,31 +1,30 @@
-name: Deploy to UAT VM
+name: Deploy Java App to UAT VM
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, Runner-Agent]
+    runs-on: [self-hosted]
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Create IIS Folder
-        shell: powershell
-        run: |
-          if (!(Test-Path "C:\inetpub\wwwroot\boardgame")) {
-              New-Item -ItemType Directory -Path "C:\inetpub\wwwroot\boardgame"
-          }
+      - name: Build Maven Project
+        run: mvn clean package -DskipTests
 
-      - name: Copy files to IIS
-        shell: powershell
-        run: |
-          xcopy . C:\inetpub\wwwroot\boardgame /E /H /C /I /Y
+      - name: Build Docker Image
+        run: docker build -t boardgame-app .
 
-      - name: Restart IIS
-        shell: powershell
-        run: |
-          iisreset
+      - name: Stop Old Container
+        run: docker stop boardgame-app || true
+
+      - name: Remove Old Container
+        run: docker rm boardgame-app || true
+
+      - name: Run Docker Container
+        run: docker run -d -p 8080:8080 --name boardgame-app boardgame-app
