@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build Maven Project
-        run: mvn clean package -DskipTests
+        run:  mvn.cmd clean package -DskipTests
 
       - name: Build Docker Image
         run: docker build -t boardgame-app .
