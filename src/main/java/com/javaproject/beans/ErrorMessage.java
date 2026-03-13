@@ -1,10 +1,10 @@
 package com.javaproject.beans;
 
 public class ErrorMessage {
-
     private String message;
 
     public ErrorMessage() {
+        // default constructor
     }
 
     public ErrorMessage(String message) {
