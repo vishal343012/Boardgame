@@ -1,0 +1,31 @@
+name: Deploy to UAT VM
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, Runner-Agent]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Create IIS Folder
+        shell: powershell
+        run: |
+          if (!(Test-Path "C:\inetpub\wwwroot\boardgame")) {
+              New-Item -ItemType Directory -Path "C:\inetpub\wwwroot\boardgame"
+          }
+
+      - name: Copy files to IIS
+        shell: powershell
+        run: |
+          xcopy . C:\inetpub\wwwroot\boardgame /E /H /C /I /Y
+
+      - name: Restart IIS
+        shell: powershell
+        run: |
+          iisreset
