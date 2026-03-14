@@ -1,75 +1,40 @@
 package com.javaproject.beans;
 
-import java.util.List;
-
 public class BoardGame {
-private Long id;
-private String name;
-private int level;
-private int minPlayers;
-private int maxPlayers;
-private String gameType;
 
-private List<Review> reviews;
+    private Long id;
+    private String name;
+    private String description;
 
-public BoardGame() {
-}
+    public BoardGame() {}
 
-public Long getId() {
-    return id;
-}
+    public BoardGame(Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
 
-public void setId(Long id) {
-    this.id = id;
-}
+    public Long getId() {
+        return id;
+    }
 
-public String getName() {
-    return name;
-}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-public void setName(String name) {
-    this.name = name;
-}
+    public String getName() {
+        return name;
+    }
 
-public int getLevel() {
-    return level;
-}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-public void setLevel(int level) {
-    this.level = level;
-}
+    public String getDescription() {
+        return description;
+    }
 
-public int getMinPlayers() {
-    return minPlayers;
-}
-
-public void setMinPlayers(int minPlayers) {
-    this.minPlayers = minPlayers;
-}
-
-public int getMaxPlayers() {
-    return maxPlayers;
-}
-
-public void setMaxPlayers(int maxPlayers) {
-    this.maxPlayers = maxPlayers;
-}
-
-public String getGameType() {
-    return gameType;
-}
-
-public void setGameType(String gameType) {
-    this.gameType = gameType;
-}
-
-public List<Review> getReviews() {
-    return reviews;
-}
-
-public void setReviews(List<Review> reviews) {
-    this.reviews = reviews;
-}
-
-
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
