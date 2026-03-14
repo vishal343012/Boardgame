@@ -3,73 +3,91 @@ package com.javaproject.beans;
 import java.util.List;
 
 public class BoardGame {
-private Long id;
-private String name;
-private int level;
-private int minPlayers;
-private int maxPlayers;
-private String gameType;
 
-private List<Review> reviews;
+    private Long id;
+    private String name;
+    private String description;
+    private int level;
+    private int minPlayers;
+    private int maxPlayers;
+    private String gameType;
 
-public BoardGame() {
-}
+    private List<Review> reviews;
 
-public Long getId() {
-    return id;
-}
+    public BoardGame() {
+    }
 
-public void setId(Long id) {
-    this.id = id;
-}
+    public BoardGame(Long id, String name, String description, int level, int minPlayers, int maxPlayers, String gameType) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.level = level;
+        this.minPlayers = minPlayers;
+        this.maxPlayers = maxPlayers;
+        this.gameType = gameType;
+    }
 
-public String getName() {
-    return name;
-}
+    public Long getId() {
+        return id;
+    }
 
-public void setName(String name) {
-    this.name = name;
-}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-public int getLevel() {
-    return level;
-}
+    public String getName() {
+        return name;
+    }
 
-public void setLevel(int level) {
-    this.level = level;
-}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-public int getMinPlayers() {
-    return minPlayers;
-}
+    public String getDescription() {
+        return description;
+    }
 
-public void setMinPlayers(int minPlayers) {
-    this.minPlayers = minPlayers;
-}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-public int getMaxPlayers() {
-    return maxPlayers;
-}
+    public int getLevel() {
+        return level;
+    }
 
-public void setMaxPlayers(int maxPlayers) {
-    this.maxPlayers = maxPlayers;
-}
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
-public String getGameType() {
-    return gameType;
-}
+    public int getMinPlayers() {
+        return minPlayers;
+    }
 
-public void setGameType(String gameType) {
-    this.gameType = gameType;
-}
+    public void setMinPlayers(int minPlayers) {
+        this.minPlayers = minPlayers;
+    }
 
-public List<Review> getReviews() {
-    return reviews;
-}
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
 
-public void setReviews(List<Review> reviews) {
-    this.reviews = reviews;
-}
+    public void setMaxPlayers(int maxPlayers) {
+        this.maxPlayers = maxPlayers;
+    }
 
+    public String getGameType() {
+        return gameType;
+    }
 
+    public void setGameType(String gameType) {
+        this.gameType = gameType;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 }

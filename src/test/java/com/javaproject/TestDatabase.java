@@ -26,11 +26,13 @@ class TestDatabase {
 
     @Test
     public void testDatabaseAddBoardGame() {
+
         BoardGame boardGame = new BoardGame();
         boardGame.setName("onecard");
+        boardGame.setDescription("Fun Party Game");
         boardGame.setLevel(1);
         boardGame.setMinPlayers(2);
-        boardGame.setMaxPlayers("+");
+        boardGame.setMaxPlayers(6);   // FIXED HERE (must be int)
         boardGame.setGameType("Party Game");
 
         int originalSize = da.getBoardGames().size();
@@ -38,38 +40,6 @@ class TestDatabase {
         da.addBoardGame(boardGame);
         int newSize = da.getBoardGames().size();
 
-        assertEquals(newSize, originalSize + 1);
+        assertEquals(originalSize + 1, newSize);
     }
-
-    // @Test
-    // public void testDatabaseAddReview() {
-    // List<BoardGame> boardGames = da.getBoardGames();
-    // Long boardgameId = boardGames.get(0).getId();
-
-    // Review review = new Review();
-    // review.setGameId(boardgameId);
-    // review.setText("This is review text");
-
-    // int originalSize = da.getReviews(boardgameId).size();
-
-    // da.addReview(review);
-    // int newSize = da.getReviews(boardgameId).size();
-
-    // assertEquals(newSize, originalSize + 1);
-    // }
-
-    // @Test
-    // public void testDatabaseDeleteReview() {
-    // List<BoardGame> boardGames = da.getBoardGames();
-    // Long boardgameId = boardGames.get(0).getId();
-
-    // List<Review> reviews = da.getReviews(boardgameId);
-    // Long reviewId = reviews.get(0).getId();
-
-    // int originalSize = da.getReviews(boardgameId).size();
-
-    // da.deleteReview(reviewId);
-    // int newSize = da.getReviews(boardgameId).size();
-    // assertEquals(newSize, originalSize - 1);
-    // }
 }
