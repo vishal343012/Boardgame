@@ -1,41 +1,44 @@
-package com.javaproject.beans;
+package com.javaproject.services;
 
-public class BoardGame {
+import com.javaproject.beans.BoardGame;
+import org.springframework.stereotype.Service;
 
-    private Long id;
-    private String name;
-    private String description;
+import java.util.ArrayList;
+import java.util.List;
 
-    public BoardGame() {
+@Service
+public class BoardGameService {
+
+    private List<BoardGame> games = new ArrayList<>();
+
+    public List<BoardGame> getAllGames() {
+        return games;
     }
 
-    public BoardGame(Long id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
+    public BoardGame getGameById(Long id) {
+        return games.stream()
+                .filter(g -> g.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 
-    public Long getId() {
-        return id;
+    public BoardGame createGame(BoardGame game) {
+        games.add(game);
+        return game;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public BoardGame updateGame(Long id, BoardGame game) {
+        for (BoardGame g : games) {
+            if (g.getId().equals(id)) {
+                g.setName(game.getName());
+                g.setDescription(game.getDescription());
+                return g;
+            }
+        }
+        return null;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public boolean deleteGame(Long id) {
+        return games.removeIf(g -> g.getId().equals(id));
     }
 }
